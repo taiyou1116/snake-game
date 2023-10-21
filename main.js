@@ -1,7 +1,8 @@
 
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
-// 背景設定
+
+// キャンバス設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -35,10 +36,11 @@ const apple = new Item(appleImage);
 const goldApple = new Item(goldAppleImage);
 let walls = [];
 
+// 全体のアイテムがどこにあるか管理
 const items = Array.from({ length: 20 }, () => Array(20).fill(0));
 
 const init = () => {
-    // マス目がわかりやすいように
+    // マス目作成
     for (let x = 0; x < STAGE; x++) {
         for (let y = 0; y < STAGE; y++) {
             bgCtx.fillStyle = '#aaa'; // 灰色
@@ -48,14 +50,11 @@ const init = () => {
 
     // snake
     createSnake(STAGE);
-
     // apple
     createApple(apple, items, STAGE, snake);
-
     // 金りんご
     goldApple.x = null;
     goldApple.y = null;
-
     // 壁
     walls = [];
 }
@@ -64,23 +63,34 @@ const loop = () => {
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // 蛇、りんご、壁、金りんごのupdate処理(描画)
     snake.update(ctx, GRID, init);
     apple.update(ctx, GRID);
-
-    // console.log(walls);
     walls.forEach(wall => wall.update(ctx, GRID));
+    if (goldApple.x !== null && goldApple.y !== null) {
+        goldApple.update(ctx, GRID);
+    }
 
+    // はみ出た時
     if(snake.x < 0) snake.x = STAGE - 1;
     if(snake.y < 0) snake.y = STAGE - 1;
     if(snake.x > STAGE - 1) snake.x = 0;
     if(snake.y > STAGE - 1) snake.y = 0;
 
+    // りんごとった時
     if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
         document.getElementById('snake-length').innerText = "蛇の長さ: " + snake.tail;
         createApple(apple, items, STAGE, snake);
     }
-
+    // 金りんごとった時
+    if (snake.x === goldApple.x && snake.y === goldApple.y) {
+        snake.tail += 2;
+        document.getElementById('snake-length').innerText = "蛇の長さ: " + snake.tail;
+        goldApple.x = null;
+        goldApple.y = null;
+    }
+    // wallあたったか
     walls.some(wall => {
         if (snake.x === wall.x && snake.y === wall.y) {
             init();
@@ -88,30 +98,19 @@ const loop = () => {
         }
         return false;
     });
-
-    // 金りんごが設定されていれば表示
-    if (goldApple.x !== null && goldApple.y !== null) {
-        goldApple.update(ctx, GRID);
-    }
-  
-    // 蛇が金りんごに触れたかどうかの判定
-    if (snake.x === goldApple.x && snake.y === goldApple.y) {
-        snake.tail += 2;
-        document.getElementById('snake-length').innerText = "蛇の長さ: " + snake.tail;
-        goldApple.x = null;
-        goldApple.y = null;
-    }
 }
 
+// 初期化とインターバル
 init();
 setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
 setInterval(() => createWall(walls, items, STAGE, wallImage, snake), 5000);
 
-// 10秒ごとに金りんご
+// 15秒ごとに金りんご
 setInterval(() => createGoldApple(goldApple, items, STAGE, snake), 15000);
 
+// キー入力
 document.addEventListener('keydown', e => {
     switch (e.key) {
         case 'ArrowLeft':

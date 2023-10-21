@@ -1,4 +1,4 @@
-// Itemクラス(apple, wall)
+
 export class Item {
     constructor(img, x = null, y = null) {
         this.x = x;
@@ -11,12 +11,14 @@ export class Item {
     }
 }
 
+// プレイヤー近くにitem生成しないように
 const isFarEnough = (x, y, snakeX, snakeY, minDistance) => {
     const dx = Math.abs(x - snakeX);
     const dy = Math.abs(y - snakeY);
     return dx >= minDistance && dy >= minDistance;
 }
 
+// itemを作成
 const createItem = (item, items, STAGE, snake) => {
     let x, y;
     const minDistance = 5;
