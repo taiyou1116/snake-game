@@ -46,13 +46,17 @@ const init = () => {
         }
     }
 
-    // snake初期化
+    // snake
     createSnake(STAGE);
 
-    // apple初期化
-    createApple(apple, items, STAGE);
+    // apple
+    createApple(apple, items, STAGE, snake);
 
-    // 壁の初期化
+    // 金りんご
+    goldApple.x = null;
+    goldApple.y = null;
+
+    // 壁
     walls = [];
 }
 
@@ -73,7 +77,7 @@ const loop = () => {
 
     if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
-        createApple(apple, items, STAGE);
+        createApple(apple, items, STAGE, snake);
     }
 
     walls.some(wall => {
@@ -101,10 +105,10 @@ init();
 setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
-setInterval(() => createWall(walls, items, STAGE, wallImage), 5000);
+setInterval(() => createWall(walls, items, STAGE, wallImage, snake), 5000);
 
 // 10秒ごとに金りんご
-setInterval(() => createGoldApple(goldApple, items, STAGE), 15000);
+setInterval(() => createGoldApple(goldApple, items, STAGE, snake), 15000);
 
 document.addEventListener('keydown', e => {
     switch (e.key) {
