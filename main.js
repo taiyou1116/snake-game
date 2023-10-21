@@ -37,6 +37,8 @@ const gameState = {
     gameStop: false
 };
 
+let directionQueue = [];
+
 // item初期化
 const apple = new Item(appleImage);
 const goldApple = new Item(goldAppleImage);
@@ -64,6 +66,7 @@ const init = () => {
     // 壁
     walls = [];
     items = Array.from({ length: 20 }, () => Array(20).fill(0));
+    directionQueue = [];
 }
 
 const loop = () => {
@@ -75,7 +78,7 @@ const loop = () => {
         snake.dx = newDirection.dx;
         snake.dy = newDirection.dy;
     }
-    
+
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -135,9 +138,6 @@ const startGame = () => {
 // GUI
 
 startButton.addEventListener('click', startGame);
-
-
-const directionQueue = [];
 
 // キー入力
 document.addEventListener('keydown', e => {
