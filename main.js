@@ -58,8 +58,6 @@ const init = () => {
 
     // 壁
     walls = [];
-
-    document.getElementById('snake-length').innerText = "蛇の長さ: " + 4;
 }
 
 const loop = () => {
