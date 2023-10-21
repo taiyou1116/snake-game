@@ -69,6 +69,13 @@ const init = () => {
 const loop = () => {
     if (gameState.gameStop) return;
 
+    // キューから新しい方向を取得
+    if (directionQueue.length > 0) {
+        const newDirection = directionQueue.shift();
+        snake.dx = newDirection.dx;
+        snake.dy = newDirection.dy;
+    }
+    
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -129,20 +136,27 @@ const startGame = () => {
 
 startButton.addEventListener('click', startGame);
 
+
+const directionQueue = [];
+
 // キー入力
 document.addEventListener('keydown', e => {
+    let newDirection;
     switch (e.key) {
         case 'ArrowLeft':
-            snake.dx = -1; snake.dy = 0;
+            newDirection = {dx: -1, dy: 0};
             break;
         case 'ArrowRight':
-            snake.dx = 1; snake.dy = 0;
+            newDirection = {dx: 1, dy: 0};
             break;
         case 'ArrowUp':
-            snake.dx = 0; snake.dy = -1;
+            newDirection = {dx: 0, dy: -1};
             break;
         case 'ArrowDown':
-            snake.dx = 0; snake.dy = 1;
+            newDirection = {dx: 0, dy: 1};
             break;
+    }
+    if (newDirection) {
+        directionQueue.push(newDirection);
     }
 });
