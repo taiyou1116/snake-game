@@ -58,8 +58,7 @@ const snake = {
 
 // Itemクラス(apple, wall)
 class Item {
-    constructor(type, img, x = null, y = null) {
-        this.type = type;
+    constructor(img, x = null, y = null) {
         this.x = x;
         this.y = y;
         this.img = img;
@@ -70,11 +69,22 @@ class Item {
     }
 }
 
-const apple = new Item('apple', appleImage);
-
+const apple = new Item(appleImage);
+const goldApple = new Item( goldAppleImage);
 let walls = [];
+
+const createApple = () => {
+    apple.x = Math.floor(Math.random() * STAGE);
+    apple.y = Math.floor(Math.random() * STAGE);
+};
+
+const createGoldApple = () => {
+    goldApple.x = Math.floor(Math.random() * STAGE);
+    goldApple.y = Math.floor(Math.random() * STAGE);
+};
+
 const createWall = () => {
-    const wall = new Item('wall', wallImage);
+    const wall = new Item(wallImage);
     wall.x = Math.floor(Math.random() * STAGE);
     wall.y = Math.floor(Math.random() * STAGE);
     walls.push(wall);
@@ -97,8 +107,8 @@ const init = () => {
     snake.dx = 1;
     snake.dy = 0;
 
-    apple.x = Math.floor(Math.random() * STAGE);
-    apple.y = Math.floor(Math.random() * STAGE);
+    // apple初期化
+    createApple();
 
     // 壁の初期化
     walls = [];
@@ -120,9 +130,7 @@ const loop = () => {
 
     if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
-
-        apple.x = Math.floor(Math.random() * STAGE);
-        apple.y = Math.floor(Math.random() * STAGE);
+        createApple();
     }
 
     walls.some(wall => {
@@ -132,13 +140,28 @@ const loop = () => {
         }
         return false;
     });
+
+    // 金りんごが設定されていれば表示
+    if (goldApple.x !== null && goldApple.y !== null) {
+        goldApple.update();
+    }
+  
+    // 蛇が金りんごに触れたかどうかの判定
+    if (snake.x === goldApple.x && snake.y === goldApple.y) {
+        snake.tail += 2;  
+        goldApple.x = null;
+        goldApple.y = null;
+    }
 }
 
 init();
-setInterval(loop, 1000/5);
+setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
 setInterval(createWall, 5000);
+
+// 10秒ごとに金りんご
+setInterval(createGoldApple, 15000);
 
 document.addEventListener('keydown', e => {
     switch (e.key) {
