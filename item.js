@@ -28,10 +28,9 @@ export const createGoldApple = (goldApple, items, STAGE) => {
     createItem(goldApple, items, STAGE);
 };
 
-// export const createWall = (walls, items, STAGE, wall) => {
-//     // const wall = new Item(wallImage);
-//     createItem(wall, items, STAGE);
-//     // wall.x = Math.floor(Math.random() * STAGE);
-//     // wall.y = Math.floor(Math.random() * STAGE);
-//     walls.push(wall);
-// }
+export const createWall = (walls, items, STAGE, wallImage) => {
+    
+    const wall = new Item(wallImage);
+    createItem(wall, items, STAGE);
+    walls.push(wall);
+}

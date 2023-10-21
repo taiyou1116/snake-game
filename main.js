@@ -1,6 +1,6 @@
 
 import { snake, createSnake } from "./snake.js";
-import { Item, createApple, createGoldApple } from "./item.js";
+import { Item, createApple, createGoldApple, createWall } from "./item.js";
 // 背景設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -33,9 +33,8 @@ const STAGE = canvas.width / GRID;
 // item初期化
 const apple = new Item(appleImage);
 const goldApple = new Item(goldAppleImage);
-const wall = new Item(wallImage);
 let walls = [];
-// 何かしらある
+
 const items = Array.from({ length: 20 }, () => Array(20).fill(0));
 
 const init = () => {
@@ -64,7 +63,8 @@ const loop = () => {
     snake.update(ctx, GRID, init);
     apple.update(ctx, GRID);
 
-    walls.forEach(wall => wall.update());
+    // console.log(walls);
+    walls.forEach(wall => wall.update(ctx, GRID));
 
     if(snake.x < 0) snake.x = STAGE - 1;
     if(snake.y < 0) snake.y = STAGE - 1;
@@ -101,7 +101,7 @@ init();
 setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
-// setInterval(createWall(walls, items, STAGE, wall), 5000);
+setInterval(() => createWall(walls, items, STAGE, wallImage), 5000);
 
 // 10秒ごとに金りんご
 setInterval(() => createGoldApple(goldApple, items, STAGE), 15000);
