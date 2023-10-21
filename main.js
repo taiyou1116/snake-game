@@ -1,6 +1,6 @@
 
 import { snake, createSnake } from "./snake.js";
-import { Item, createApple, createGoldApple, createWall } from "./item.js";
+import { Item, createApple, createGoldApple } from "./item.js";
 // 背景設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -32,8 +32,11 @@ const STAGE = canvas.width / GRID;
 
 // item初期化
 const apple = new Item(appleImage);
-const goldApple = new Item( goldAppleImage);
+const goldApple = new Item(goldAppleImage);
+const wall = new Item(wallImage);
 let walls = [];
+// 何かしらある
+const items = Array.from({ length: 20 }, () => Array(20).fill(0));
 
 const init = () => {
     // マス目がわかりやすいように
@@ -45,10 +48,10 @@ const init = () => {
     }
 
     // snake初期化
-    createSnake();
+    createSnake(STAGE);
 
     // apple初期化
-    createApple();
+    createApple(apple, items, STAGE);
 
     // 壁の初期化
     walls = [];
@@ -70,7 +73,7 @@ const loop = () => {
 
     if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
-        createApple();
+        createApple(apple, items, STAGE);
     }
 
     walls.some(wall => {
@@ -98,10 +101,10 @@ init();
 setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
-setInterval(createWall(walls), 5000);
+// setInterval(createWall(walls, items, STAGE, wall), 5000);
 
 // 10秒ごとに金りんご
-setInterval(createGoldApple, 15000);
+setInterval(() => createGoldApple(goldApple, items, STAGE), 15000);
 
 document.addEventListener('keydown', e => {
     switch (e.key) {

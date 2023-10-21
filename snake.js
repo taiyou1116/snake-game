@@ -26,7 +26,7 @@ export const snake = {
     }
 }
 
-export const createSnake = () => {
+export const createSnake = (STAGE) => {
     // snake初期化
     snake.x = STAGE / 2;
     snake.y = STAGE / 2;

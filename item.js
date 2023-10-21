@@ -11,20 +11,27 @@ export class Item {
     }
 }
 
-
-export const createApple = () => {
-    apple.x = Math.floor(Math.random() * STAGE);
-    apple.y = Math.floor(Math.random() * STAGE);
-};
-
-export const createGoldApple = () => {
-    goldApple.x = Math.floor(Math.random() * STAGE);
-    goldApple.y = Math.floor(Math.random() * STAGE);
-};
-
-export const createWall = (walls) => {
-    const wall = new Item(wallImage);
-    wall.x = Math.floor(Math.random() * STAGE);
-    wall.y = Math.floor(Math.random() * STAGE);
-    walls.push(wall);
+const createItem = (item, items, STAGE) => {
+    do {
+        item.x = Math.floor(Math.random() * STAGE);
+        item.y = Math.floor(Math.random() * STAGE);
+    } while (items[item.y][item.x] === 1)
+    
+    items[item.y][item.x] = 1;
 }
+
+export const createApple = (apple, items, STAGE) => {
+    createItem(apple, items, STAGE);
+};
+
+export const createGoldApple = (goldApple, items, STAGE) => {
+    createItem(goldApple, items, STAGE);
+};
+
+// export const createWall = (walls, items, STAGE, wall) => {
+//     // const wall = new Item(wallImage);
+//     createItem(wall, items, STAGE);
+//     // wall.x = Math.floor(Math.random() * STAGE);
+//     // wall.y = Math.floor(Math.random() * STAGE);
+//     walls.push(wall);
+// }
