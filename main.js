@@ -32,6 +32,7 @@ const snake = {
     dx: 1,
     dy: 0,
     tail: null,
+    body: null,
 
     update: function() {
         this.body.push({ x: this.x, y: this.y })
