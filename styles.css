@@ -1,0 +1,17 @@
+/* キャンバスを囲むコンテナ */
+#game-container {
+  position: relative;
+  height: 400px;  /* canvasの高さと一致させる */
+}
+
+/* キャンバスと背景キャンバス */
+canvas {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* ボタンと蛇の長さ表示を囲むコンテナ */
+#button-container {
+  margin-top: 20px;  /* 任意の余白 */
+}

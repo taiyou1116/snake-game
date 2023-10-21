@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="game-container">
+      <canvas id="bgCanvas"></canvas>
+      <canvas id="canvas"></canvas>
+    </div>
+    <div id="button-container">
+      <div id="snake-length">蛇の長さ: 4</div>
+      <button>スタート</button>
+    </div>
     <img id="appleImage" src="img/apple.png" style="display:none;">
     <img id="goldAppleImage" src="img/gold_apple.png" style="display:none;">
     <img id="wallImage" src="img/wall.png" style="display:none;">
     <script type="module" defer src="main.js"></script>
-    <div id="snake-length">蛇の長さ: 4</div>
 </body>
 </html>

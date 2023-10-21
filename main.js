@@ -3,10 +3,10 @@ import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
 
 // キャンバス設定
-const canvas = document.createElement('canvas');
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const bgCanvas = document.createElement('canvas');
+const bgCanvas = document.getElementById('bgCanvas');
 const bgCtx = bgCanvas.getContext('2d');
 
 canvas.width = 400;
