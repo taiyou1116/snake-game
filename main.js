@@ -1,5 +1,5 @@
 
-import { snake } from "./snake";
+import { snake } from "./snake.js";
 // 背景設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -91,7 +91,7 @@ const loop = () => {
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    snake.update();
+    snake.update(ctx, GRID, init);
     apple.update();
 
     walls.forEach(wall => wall.update());

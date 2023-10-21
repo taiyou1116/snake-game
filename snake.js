@@ -6,7 +6,7 @@ export const snake = {
     tail: null,
     body: null,
 
-    update: function() {
+    update: function(ctx, GRID, init) {
         this.body.push({ x: this.x, y: this.y })
         this.x += this.dx;
         this.y += this.dy;
