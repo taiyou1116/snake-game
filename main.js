@@ -1,4 +1,5 @@
 
+import { snake } from "./snake";
 // 背景設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -27,34 +28,6 @@ const wallImage = document.getElementById('wallImage');
 
 const GRID = 20;
 const STAGE = canvas.width / GRID;
-
-const snake = {
-    x: null,
-    y: null,
-    dx: 1,
-    dy: 0,
-    tail: null,
-    body: null,
-
-    update: function() {
-        this.body.push({ x: this.x, y: this.y })
-        this.x += this.dx;
-        this.y += this.dy;
-
-        this.body.forEach((obj, index) => {
-            if (index === this.body.length - 1) {
-                ctx.fillStyle = 'blue'; 
-            } else {
-                ctx.fillStyle = 'green';
-            }
-            ctx.fillRect(obj.x * GRID, obj.y * GRID, GRID - 2, GRID - 2);
-
-            if (this.x === obj.x && this.y === obj.y) init();
-        })
-        // shiftメソッドで古いbodyを消去
-        if (this.body.length > this.tail) this.body.shift();
-    }
-}
 
 // Itemクラス(apple, wall)
 class Item {
