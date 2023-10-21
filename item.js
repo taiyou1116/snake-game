@@ -14,8 +14,7 @@ export class Item {
 const isFarEnough = (x, y, snakeX, snakeY, minDistance) => {
     const dx = Math.abs(x - snakeX);
     const dy = Math.abs(y - snakeY);
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    return distance >= minDistance;
+    return dx >= minDistance && dy >= minDistance;
 }
 
 const createItem = (item, items, STAGE, snake) => {
