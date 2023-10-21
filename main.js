@@ -1,6 +1,11 @@
 
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
+import { fetchRanking } from "./ranking.js";
+
+fetchRanking().then(data => {
+    console.log(data);
+})
 
 // キャンバス設定
 const canvas = document.getElementById('canvas');
