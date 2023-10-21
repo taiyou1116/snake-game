@@ -1,5 +1,6 @@
 
 import { snake } from "./snake.js";
+import { Item, createApple, createGoldApple, createWall } from "./item.js";
 // 背景設定
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -29,39 +30,10 @@ const wallImage = document.getElementById('wallImage');
 const GRID = 20;
 const STAGE = canvas.width / GRID;
 
-// Itemクラス(apple, wall)
-class Item {
-    constructor(img, x = null, y = null) {
-        this.x = x;
-        this.y = y;
-        this.img = img;
-    }
-
-    update() {
-        ctx.drawImage(this.img, this.x * GRID, this.y * GRID, GRID, GRID);
-    }
-}
-
+// item初期化
 const apple = new Item(appleImage);
 const goldApple = new Item( goldAppleImage);
 let walls = [];
-
-const createApple = () => {
-    apple.x = Math.floor(Math.random() * STAGE);
-    apple.y = Math.floor(Math.random() * STAGE);
-};
-
-const createGoldApple = () => {
-    goldApple.x = Math.floor(Math.random() * STAGE);
-    goldApple.y = Math.floor(Math.random() * STAGE);
-};
-
-const createWall = () => {
-    const wall = new Item(wallImage);
-    wall.x = Math.floor(Math.random() * STAGE);
-    wall.y = Math.floor(Math.random() * STAGE);
-    walls.push(wall);
-}
 
 const init = () => {
     // マス目がわかりやすいように
@@ -92,7 +64,7 @@ const loop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     snake.update(ctx, GRID, init);
-    apple.update();
+    apple.update(ctx, GRID);
 
     walls.forEach(wall => wall.update());
 
@@ -116,7 +88,7 @@ const loop = () => {
 
     // 金りんごが設定されていれば表示
     if (goldApple.x !== null && goldApple.y !== null) {
-        goldApple.update();
+        goldApple.update(ctx, GRID);
     }
   
     // 蛇が金りんごに触れたかどうかの判定
@@ -131,7 +103,7 @@ init();
 setInterval(loop, 1000/8);
 
 // 5秒ごとに壁を作成
-setInterval(createWall, 5000);
+setInterval(createWall(walls), 5000);
 
 // 10秒ごとに金りんご
 setInterval(createGoldApple, 15000);
