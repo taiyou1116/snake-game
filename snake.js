@@ -25,3 +25,13 @@ export const snake = {
         if (this.body.length > this.tail) this.body.shift();
     }
 }
+
+export const createSnake = () => {
+    // snake初期化
+    snake.x = STAGE / 2;
+    snake.y = STAGE / 2;
+    snake.tail = 4;
+    snake.body = [];
+    snake.dx = 1;
+    snake.dy = 0;
+}

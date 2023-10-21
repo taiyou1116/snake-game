@@ -1,5 +1,5 @@
 
-import { snake } from "./snake.js";
+import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
 // 背景設定
 const canvas = document.createElement('canvas');
@@ -45,12 +45,7 @@ const init = () => {
     }
 
     // snake初期化
-    snake.x = STAGE / 2;
-    snake.y = STAGE / 2;
-    snake.tail = 4;
-    snake.body = [];
-    snake.dx = 1;
-    snake.dy = 0;
+    createSnake();
 
     // apple初期化
     createApple();
