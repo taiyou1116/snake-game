@@ -37,7 +37,7 @@ const goldApple = new Item(goldAppleImage);
 let walls = [];
 
 // 全体のアイテムがどこにあるか管理
-const items = Array.from({ length: 20 }, () => Array(20).fill(0));
+let items = Array.from({ length: 20 }, () => Array(20).fill(0));
 
 const init = () => {
     // マス目作成
@@ -57,6 +57,7 @@ const init = () => {
     goldApple.y = null;
     // 壁
     walls = [];
+    items = Array.from({ length: 20 }, () => Array(20).fill(0));
 }
 
 const loop = () => {

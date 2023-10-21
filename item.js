@@ -15,7 +15,8 @@ export class Item {
 const isFarEnough = (x, y, snakeX, snakeY, minDistance) => {
     const dx = Math.abs(x - snakeX);
     const dy = Math.abs(y - snakeY);
-    return dx >= minDistance && dy >= minDistance;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance >= minDistance;
 }
 
 // itemを作成
