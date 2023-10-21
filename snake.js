@@ -6,7 +6,7 @@ export const snake = {
     tail: null,
     body: null,
 
-    update: function(ctx, GRID, init) {
+    update: function(ctx, GRID, gameState) {
         this.body.push({ x: this.x, y: this.y })
         this.x += this.dx;
         this.y += this.dy;
@@ -19,7 +19,9 @@ export const snake = {
             }
             ctx.fillRect(obj.x * GRID, obj.y * GRID, GRID - 2, GRID - 2);
 
-            if (this.x === obj.x && this.y === obj.y) init();
+            if (this.x === obj.x && this.y === obj.y) {
+                gameState.gameStop = true;
+            }
         })
         // shiftメソッドで古いbodyを消去
         if (this.body.length > this.tail) this.body.shift();

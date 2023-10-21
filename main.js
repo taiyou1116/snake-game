@@ -9,6 +9,8 @@ const ctx = canvas.getContext('2d');
 const bgCanvas = document.getElementById('bgCanvas');
 const bgCtx = bgCanvas.getContext('2d');
 
+const startButton = document.getElementById('start-button');
+
 canvas.width = 400;
 canvas.height = 400;
 
@@ -31,6 +33,10 @@ const wallImage = document.getElementById('wallImage');
 const GRID = 20;
 const STAGE = canvas.width / GRID;
 
+const gameState = {
+    gameStop: false
+};
+
 // item初期化
 const apple = new Item(appleImage);
 const goldApple = new Item(goldAppleImage);
@@ -47,7 +53,7 @@ const init = () => {
             bgCtx.fillRect(x * GRID, y * GRID, GRID - 1, GRID - 1);
         }
     }
-
+    gameState.gameStop = false;
     // snake
     createSnake(STAGE);
     // apple
@@ -61,11 +67,13 @@ const init = () => {
 }
 
 const loop = () => {
+    if (gameState.gameStop) return;
+
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // 蛇、りんご、壁、金りんごのupdate処理(描画)
-    snake.update(ctx, GRID, init);
+    snake.update(ctx, GRID, gameState);
     apple.update(ctx, GRID);
     walls.forEach(wall => wall.update(ctx, GRID));
     if (goldApple.x !== null && goldApple.y !== null) {
@@ -94,22 +102,32 @@ const loop = () => {
     // wallあたったか
     walls.some(wall => {
         if (snake.x === wall.x && snake.y === wall.y) {
-            init();
+            gameState.gameStop = true;
             return true;
         }
         return false;
     });
 }
 
-// 初期化とインターバル
-init();
-setInterval(loop, 1000/8);
+// 前回のインターバルを管理
+let gameInterval;
+let itemInterval;
+let appleInterval;
 
-// 5秒ごとに壁を作成
-setInterval(() => createWall(walls, items, STAGE, wallImage, snake), 5000);
+// ゲームスタートの関数
+const startGame = () => {
+    clearInterval(gameInterval);
+    clearInterval(itemInterval);
+    clearInterval(appleInterval);
+    init();  // ゲームの初期化
+    gameInterval = setInterval(loop, 1000/8);  // ゲームループ開始
+    itemInterval = setInterval(() => createWall(walls, items, STAGE, wallImage, snake), 5000);
+    appleInterval = setInterval(() => createGoldApple(goldApple, items, STAGE, snake), 15000);
+};
 
-// 15秒ごとに金りんご
-setInterval(() => createGoldApple(goldApple, items, STAGE, snake), 15000);
+// GUI
+
+startButton.addEventListener('click', startGame);
 
 // キー入力
 document.addEventListener('keydown', e => {
