@@ -58,6 +58,8 @@ const init = () => {
 
     // 壁
     walls = [];
+
+    document.getElementById('snake-length').innerText = "蛇の長さ: " + 4;
 }
 
 const loop = () => {
@@ -77,6 +79,7 @@ const loop = () => {
 
     if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
+        document.getElementById('snake-length').innerText = "蛇の長さ: " + snake.tail;
         createApple(apple, items, STAGE, snake);
     }
 
@@ -95,7 +98,8 @@ const loop = () => {
   
     // 蛇が金りんごに触れたかどうかの判定
     if (snake.x === goldApple.x && snake.y === goldApple.y) {
-        snake.tail += 2;  
+        snake.tail += 2;
+        document.getElementById('snake-length').innerText = "蛇の長さ: " + snake.tail;
         goldApple.x = null;
         goldApple.y = null;
     }
