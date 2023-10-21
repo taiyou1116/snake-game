@@ -20,6 +20,8 @@ document.body.appendChild(canvas);
 
 // img
 const appleImage = document.getElementById('appleImage');
+const goldAppleImage = document.getElementById('goldAppleImage');
+const wallImage = document.getElementById('wallImage');
 
 // ゲームロジック
 
@@ -54,15 +56,28 @@ const snake = {
     }
 }
 
-const item = {
-    x: null,
-    y: null,
-
-    update: function() {
-        // ctx.fillStyle = 'red';
-        // ctx.fillRect(this.x * GRID, this.y * GRID, GRID, GRID);
-        ctx.drawImage(appleImage, this.x * GRID, this.y * GRID, GRID, GRID);
+// Itemクラス(apple, wall)
+class Item {
+    constructor(type, img, x = null, y = null) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.img = img;
     }
+
+    update() {
+        ctx.drawImage(this.img, this.x * GRID, this.y * GRID, GRID, GRID);
+    }
+}
+
+const apple = new Item('apple', appleImage);
+
+let walls = [];
+const createWall = () => {
+    const wall = new Item('wall', wallImage);
+    wall.x = Math.floor(Math.random() * STAGE);
+    wall.y = Math.floor(Math.random() * STAGE);
+    walls.push(wall);
 }
 
 const init = () => {
@@ -74,36 +89,56 @@ const init = () => {
         }
     }
 
+    // snake初期化
     snake.x = STAGE / 2;
     snake.y = STAGE / 2;
     snake.tail = 4;
     snake.body = [];
+    snake.dx = 1;
+    snake.dy = 0;
 
-    item.x = Math.floor(Math.random() * STAGE);
-    item.y = Math.floor(Math.random() * STAGE);
+    apple.x = Math.floor(Math.random() * STAGE);
+    apple.y = Math.floor(Math.random() * STAGE);
+
+    // 壁の初期化
+    walls = [];
 }
+
 const loop = () => {
     // 描画をリセット
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     snake.update();
-    item.update();
+    apple.update();
+
+    walls.forEach(wall => wall.update());
 
     if(snake.x < 0) snake.x = STAGE - 1;
     if(snake.y < 0) snake.y = STAGE - 1;
     if(snake.x > STAGE - 1) snake.x = 0;
     if(snake.y > STAGE - 1) snake.y = 0;
 
-    if (snake.x === item.x && snake.y === item.y) {
+    if (snake.x === apple.x && snake.y === apple.y) {
         snake.tail++;
 
-        item.x = Math.floor(Math.random() * STAGE);
-        item.y = Math.floor(Math.random() * STAGE);
+        apple.x = Math.floor(Math.random() * STAGE);
+        apple.y = Math.floor(Math.random() * STAGE);
     }
+
+    walls.some(wall => {
+        if (snake.x === wall.x && snake.y === wall.y) {
+            init();
+            return true;
+        }
+        return false;
+    });
 }
 
 init();
 setInterval(loop, 1000/5);
+
+// 5秒ごとに壁を作成
+setInterval(createWall, 5000);
 
 document.addEventListener('keydown', e => {
     switch (e.key) {
