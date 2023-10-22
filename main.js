@@ -1,7 +1,7 @@
 
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
-import { fetchRanking } from "./ranking.js";
+import { fetchRanking, postFoodData } from "./ranking.js";
 
 fetchRanking().then(data => {
     console.log(data);
@@ -15,6 +15,7 @@ const bgCanvas = document.getElementById('bgCanvas');
 const bgCtx = bgCanvas.getContext('2d');
 
 const startButton = document.getElementById('start-button');
+const postButton = document.getElementById('post-button');
 
 canvas.width = 400;
 canvas.height = 400;
@@ -143,6 +144,7 @@ const startGame = () => {
 // GUI
 
 startButton.addEventListener('click', startGame);
+postButton.addEventListener('click', postFoodData);
 
 // キー入力
 document.addEventListener('keydown', e => {
