@@ -11,7 +11,6 @@ const bgCanvas = document.getElementById('bgCanvas');
 const bgCtx = bgCanvas.getContext('2d');
 
 const startButton = document.getElementById('start-button');
-const postButton = document.getElementById('post-button');
 const nameText = document.getElementById('name-text');
 
 canvas.width = 400;
