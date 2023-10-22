@@ -1,3 +1,9 @@
+
+/* canvasとランキングを横並びに */
+#game-and-output-container {
+  display: flex;
+}
+
 /* キャンバスを囲むコンテナ */
 #game-container {
   position: relative;
@@ -13,5 +19,20 @@ canvas {
 
 /* ボタンと蛇の長さ表示を囲むコンテナ */
 #button-container {
-  margin-top: 20px;  /* 任意の余白 */
+  margin-top: 20px;
+}
+
+#output {
+  margin-left: 450px; 
+  margin-top: 50px;
+}
+
+.ranking-title {
+  font-weight: bold;
+}
+
+.child-interval {
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  /* gap: 1px; */
 }

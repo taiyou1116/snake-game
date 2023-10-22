@@ -7,16 +7,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div id="game-and-output-container">
     <div id="game-container">
       <canvas id="bgCanvas"></canvas>
       <canvas id="canvas"></canvas>
     </div>
+    <div id="output" class="child-interval">
+      <div class="ranking-title">TOP10ランキング</div>
+    </div>
+  </div>
     <div id="button-container">
-      <div id="snake-length">蛇の長さ: 4</div>
+      <div id="snake-length">現在の蛇の長さ: 4</div>
       <button id="start-button">スタート</button>
       <button id="post-button">ポスト</button>
-      <div id="output"></div>
     </div>
+    
     <img id="appleImage" src="img/apple.png" style="display:none;">
     <img id="goldAppleImage" src="img/gold_apple.png" style="display:none;">
     <img id="wallImage" src="img/wall.png" style="display:none;">
