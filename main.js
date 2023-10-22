@@ -3,9 +3,25 @@ import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
 import { fetchRanking, postFoodData } from "./ranking.js";
 
+// 取得したランキングを表示
 fetchRanking().then(data => {
-    console.log(data);
+    const extractedData = data.map((item) => {
+        return {
+            name: item.name,
+            calories: item.calories,
+        }
+    })
+    console.log(extractedData);
+
+    const outputElement = document.getElementById('output');
+    extractedData.forEach((item) => {
+        const div = document.createElement('div');
+        div.textContent = `名前: ${item.name} カロリー: ${item.calories}`;
+        outputElement.appendChild(div);
+    })
 })
+
+
 
 // キャンバス設定
 const canvas = document.getElementById('canvas');
