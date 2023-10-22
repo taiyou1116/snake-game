@@ -20,7 +20,7 @@ export const snake = {
             ctx.fillRect(obj.x * GRID, obj.y * GRID, GRID - 2, GRID - 2);
 
             if (this.x === obj.x && this.y === obj.y) {
-                gameState.gameStop = true;
+                gameState.gameStopFunc();
             }
         })
         // shiftメソッドで古いbodyを消去

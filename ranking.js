@@ -6,19 +6,19 @@ export const fetchRanking = () => {
         .catch(error => console.error('エラー:', error));
 }
 
-const food = {
-    name: "ブドウ",
-    calories: 50,
-}
-
 // POSTデータ
-export const postFoodData = () => {
+export const postnewRecordData = (name, record) => {
+    const newRanking = {
+        name: name,
+        record: record,
+    }
+
     fetch('http://localhost:3000/food', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify(food),
+        body: JSON.stringify(newRanking),
     })
     .then(response => response.json())
     .then(data => {

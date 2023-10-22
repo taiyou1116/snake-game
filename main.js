@@ -1,7 +1,7 @@
 
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
-import { fetchRanking, postFoodData } from "./ranking.js";
+import { fetchRanking, postnewRecordData } from "./ranking.js";
 
 // キャンバス設定
 const canvas = document.getElementById('canvas');
@@ -12,6 +12,7 @@ const bgCtx = bgCanvas.getContext('2d');
 
 const startButton = document.getElementById('start-button');
 const postButton = document.getElementById('post-button');
+const nameText = document.getElementById('name-text');
 
 canvas.width = 400;
 canvas.height = 400;
@@ -36,7 +37,12 @@ const GRID = 20;
 const STAGE = canvas.width / GRID;
 
 const gameState = {
-    gameStop: false
+    gameStop: false,
+
+    gameStopFunc: function() {
+        this.gameStop = true;
+        sendRecord();
+    }
 };
 
 let directionQueue = [];
@@ -114,7 +120,7 @@ const loop = () => {
     // wallあたったか
     walls.some(wall => {
         if (snake.x === wall.x && snake.y === wall.y) {
-            gameState.gameStop = true;
+            gameState.gameStopFunc();
             return true;
         }
         return false;
@@ -140,7 +146,6 @@ const startGame = () => {
 // GUI
 
 startButton.addEventListener('click', startGame);
-postButton.addEventListener('click', postFoodData);
 
 // キー入力
 document.addEventListener('keydown', e => {
@@ -174,14 +179,20 @@ fetchRanking().then(data => {
             calories: item.calories,
         }
     })
-    console.log(extractedData);
 
     const outputElement = document.getElementById('output');
     extractedData.forEach((item) => {
         const div = document.createElement('div');
-        div.textContent = `名前: ${item.name} カロリー: ${item.calories}`;
+        div.textContent = `${item.name} 記録: ${item.calories}`;
         outputElement.appendChild(div);
     })
 })
 
-// 記録を送る
+// ゲーム終了時、名前が入力されていたら自動的に記録転送
+const sendRecord = () => {
+    const name = nameText.value;
+    const record = snake.tail;
+
+    // ranking.jsで処理
+    if (/\S/.test(name)) postnewRecordData(name, record);
+}
