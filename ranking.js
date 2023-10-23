@@ -34,7 +34,7 @@ export const confirmDatabaseUser = (name, record, uid) => {
         if (exists) {
             patchRecordData(name, record, uid);
         } else {
-            postnewRecordData(name, record, uid);
+            if (/\S/.test(name)) postnewRecordData(name, record, uid);
         }
     })
 }
@@ -65,9 +65,16 @@ export const postnewRecordData = (name, record, uid) => {
 
 // PATCHデータ
 export const patchRecordData = (name, record, uid) => {
-    const newRanking = {
-        name: name,
-        record: record,
+    let newRanking;
+    if (/\S/.test(name)) {
+        newRanking = {
+            name: name,
+            record: record,
+        }
+    } else {
+        newRanking = {
+            record: record,
+        }
     }
 
     fetch(`http://localhost:3000/record/${uid}`, {

@@ -200,11 +200,11 @@ fetchRanking().then(data => {
     })
 })
 
-// ゲーム終了時、名前が入力されていたら自動的に記録転送
+// 自動的に記録転送
 const sendRecord = () => {
     const name = nameText.value;
     const record = snake.tail;
 
     // ranking.jsで処理
-    if (/\S/.test(name)) confirmDatabaseUser(name, record, uid);
+    confirmDatabaseUser(name, record, uid);
 }
