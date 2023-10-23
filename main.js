@@ -2,6 +2,7 @@
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
 import { fetchRanking, postnewRecordData } from "./ranking.js";
+import { userAuth } from "./user.js";
 
 // キャンバス設定
 const canvas = document.getElementById('canvas');
@@ -167,6 +168,10 @@ document.addEventListener('keydown', e => {
         directionQueue.push(newDirection);
     }
 });
+
+// ユーザー
+
+userAuth();
 
 // バックエンドとの対話
 
