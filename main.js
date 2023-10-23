@@ -190,6 +190,7 @@ fetchRanking().then(data => {
 
     const outputElement = document.getElementById('output');
     extractedData.forEach((item, index) => {
+        if (index === 10) return;
         const div = document.createElement('div');
         // 自分の記録は太文字
         if (item.uid === uid) div.classList.add('bold');
