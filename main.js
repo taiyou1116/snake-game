@@ -186,6 +186,7 @@ fetchRanking().then(data => {
     })
 
     // sort
+    extractedData.sort((a, b) => b.record - a.record);
 
     const outputElement = document.getElementById('output');
     extractedData.forEach((item, index) => {
