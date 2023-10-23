@@ -20,12 +20,16 @@ export const confirmDatabaseUser = (name, record, uid) => {
         // データベースにuidが存在するか確認
         let exists = false;
 
-        // dbのuidを見ていく
-        extractedData.forEach((item) => {
+        // dbのuidを見ていく(新記録でなかったら終了)
+        for (let i = 0; i < extractedData.length; i++) {
+            const item = extractedData[i];
             if (item.uid === uid) {
+                if (item.record > record) {
+                    return;
+                }
                 exists = true;
             }
-        });
+        }
 
         if (exists) {
             patchRecordData(name, record, uid);

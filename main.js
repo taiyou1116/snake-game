@@ -185,10 +185,15 @@ fetchRanking().then(data => {
         }
     })
 
+    // sort
+
     const outputElement = document.getElementById('output');
-    extractedData.forEach((item) => {
+    extractedData.forEach((item, index) => {
         const div = document.createElement('div');
-        div.textContent = `${item.name} 記録: ${item.record} uid: ${item.uid}`;
+        // 自分の記録は太文字
+        if (item.uid === uid) div.classList.add('bold');
+        
+        div.textContent = `${index + 1}位: ${item.name} 記録: ${item.record}`;
         outputElement.appendChild(div);
     })
 })
