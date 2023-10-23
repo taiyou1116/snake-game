@@ -1,7 +1,7 @@
 
 import { snake, createSnake } from "./snake.js";
 import { Item, createApple, createGoldApple, createWall } from "./item.js";
-import { fetchRanking, postnewRecordData } from "./ranking.js";
+import { fetchRanking, postnewRecordData, confirmDatabaseUser } from "./ranking.js";
 import { userAuth } from "./user.js";
 
 // キャンバス設定
@@ -171,7 +171,7 @@ document.addEventListener('keydown', e => {
 
 // ユーザー
 
-userAuth();
+const uid = userAuth();
 
 // バックエンドとの対話
 
@@ -180,14 +180,15 @@ fetchRanking().then(data => {
     const extractedData = data.map((item) => {
         return {
             name: item.name,
-            calories: item.calories,
+            record: item.record,
+            uid: item.uid,
         }
     })
 
     const outputElement = document.getElementById('output');
     extractedData.forEach((item) => {
         const div = document.createElement('div');
-        div.textContent = `${item.name} 記録: ${item.calories}`;
+        div.textContent = `${item.name} 記録: ${item.record} uid: ${item.uid}`;
         outputElement.appendChild(div);
     })
 })
@@ -198,5 +199,5 @@ const sendRecord = () => {
     const record = snake.tail;
 
     // ranking.jsで処理
-    if (/\S/.test(name)) postnewRecordData(name, record);
+    if (/\S/.test(name)) confirmDatabaseUser(name, record, uid);
 }

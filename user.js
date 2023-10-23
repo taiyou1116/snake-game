@@ -7,8 +7,9 @@ export const userAuth = () => {
     console.log("store: " + storedID);
 
     if (storedID === null) {
-        const uniqueID = uuidv4();
-        localStorage.setItem('uniqueID', uniqueID);
-        console.log(uniqueID);
+        storedID = uuidv4();
+        localStorage.setItem('uniqueID', storedID);
+        console.log(storedID);
     }
+    return storedID;
 }

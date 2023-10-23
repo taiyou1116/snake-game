@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode production"
   },
   "dependencies": {
     "uuid": "^9.0.1"
